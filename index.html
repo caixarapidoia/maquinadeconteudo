@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+<title>Agente de Conteúdo Ilimitado — Caixa Rápido + IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #07080F;
+  --bg2:    #0D0E1A;
+  --card:   #111220;
+  --border: rgba(255,255,255,0.07);
+  --blue:   #3B7EFF;
+  --cyan:   #00D4FF;
+  --green:  #00E090;
+  --orange: #FF6B35;
+  --white:  #FFFFFF;
+  --text:   rgba(255,255,255,0.82);
+  --muted:  rgba(255,255,255,0.42);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* ── FUNDO ANIMADO ── */
+.bg-glow{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 50% 40% at 20% 20%, rgba(59,126,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 50% at 80% 80%, rgba(0,212,255,0.06) 0%, transparent 60%);
+}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,8,15,0.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-brand{
+  font-size:13px;font-weight:700;color:var(--muted);
+  letter-spacing:.5px;
+}
+.nav-brand span{color:var(--blue);}
+.nav-btn{
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  color:#000;font-weight:700;font-size:12px;
+  padding:8px 20px;border-radius:100px;
+  text-decoration:none;letter-spacing:.3px;
+  transition:all .2s;white-space:nowrap;
+}
+.nav-btn:hover{opacity:.85;transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  padding:0 24px;
+  max-width:900px;margin:0 auto;
+}
+.hero-top{
+  padding-top:64px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:48px;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(59,126,255,0.12);
+  border:1px solid rgba(59,126,255,0.3);
+  border-radius:100px;padding:5px 14px;
+  font-size:11px;font-weight:600;color:var(--blue);
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:28px;
+}
+.badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);}
+.hero h1{
+  font-size:clamp(36px,6vw,68px);
+  font-weight:800;line-height:1.05;
+  color:var(--white);letter-spacing:-1.5px;
+  margin-bottom:16px;
+}
+.hero h1 em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  font-size:clamp(15px,2vw,19px);color:var(--muted);
+  line-height:1.7;font-weight:300;max-width:640px;
+  margin-bottom:40px;
+}
+
+/* ── AVISO DE CONTEXTO ── */
+.aviso{
+  background:rgba(0,224,144,0.07);
+  border:1px solid rgba(0,224,144,0.2);
+  border-left:3px solid var(--green);
+  border-radius:12px;padding:20px 24px;
+  margin-bottom:40px;
+}
+.aviso p{font-size:15px;color:var(--text);line-height:1.6;}
+.aviso strong{color:var(--green);}
+
+/* ── CTA HERO ── */
+.hero-cta-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px;}
+.btn-sim{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  color:#000;font-weight:800;font-size:17px;
+  padding:20px 48px;border-radius:14px;
+  text-decoration:none;letter-spacing:.2px;
+  transition:all .25s;
+  box-shadow:0 8px 40px rgba(59,126,255,0.35);
+}
+.btn-sim:hover{transform:translateY(-3px);box-shadow:0 16px 60px rgba(59,126,255,0.5);}
+.btn-nao{
+  font-size:13px;color:var(--muted);text-decoration:none;
+  padding:8px 0;transition:color .2s;
+  border:none;background:none;cursor:pointer;
+}
+.btn-nao:hover{color:var(--text);}
+.hero-preco{font-size:13px;color:var(--muted);}
+.hero-preco strong{color:var(--cyan);font-size:26px;font-weight:800;}
+
+/* ── SEÇÕES ── */
+section{position:relative;z-index:1;}
+.inner{max-width:900px;margin:0 auto;padding:72px 24px;}
+.tag{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--blue);font-weight:700;margin-bottom:14px;display:block;
+}
+.sec-h{
+  font-size:clamp(26px,4vw,44px);font-weight:800;
+  color:var(--white);line-height:1.1;letter-spacing:-1px;
+  margin-bottom:14px;
+}
+.sec-h em{font-style:normal;color:var(--cyan);}
+.sec-p{font-size:16px;color:var(--muted);line-height:1.7;max-width:640px;}
+
+/* ── INCLUDES (O QUE ESTÁ DENTRO) ── */
+.includes-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:12px;margin-top:40px;
+}
+.inc-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:28px;
+  position:relative;overflow:hidden;
+  transition:all .22s;
+}
+.inc-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  opacity:0;transition:opacity .22s;
+}
+.inc-card:hover{border-color:rgba(59,126,255,0.3);transform:translateY(-4px);}
+.inc-card:hover::before{opacity:1;}
+.inc-num{
+  font-size:11px;font-weight:700;letter-spacing:2px;
+  color:var(--blue);margin-bottom:14px;display:block;
+}
+.inc-title{font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px;}
+.inc-desc{font-size:14px;color:var(--muted);line-height:1.65;}
+.inc-tag{
+  display:inline-block;margin-top:14px;
+  background:rgba(0,224,144,0.12);border:1px solid rgba(0,224,144,0.25);
+  color:var(--green);font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:100px;letter-spacing:1px;
+}
+
+/* ── AMOSTRA DOS DIAS ── */
+.dias-grid{
+  display:flex;flex-direction:column;gap:8px;margin-top:40px;
+}
+.dia-row{
+  display:grid;grid-template-columns:56px 1fr auto;
+  align-items:center;gap:16px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:16px 20px;
+  transition:border-color .2s;
+}
+.dia-row:hover{border-color:rgba(59,126,255,0.25);}
+.dia-n{
+  font-size:22px;font-weight:800;
+  color:var(--blue);line-height:1;
+}
+.dia-info h4{font-size:15px;font-weight:700;color:var(--white);margin-bottom:2px;}
+.dia-info p{font-size:13px;color:var(--muted);}
+.dia-badge{
+  font-size:10px;font-weight:700;letter-spacing:1px;
+  color:var(--muted);white-space:nowrap;
+  background:rgba(255,255,255,0.05);
+  border-radius:100px;padding:4px 10px;
+}
+
+/* ── PROMESSA ── */
+.promessa-sec{background:var(--bg2);}
+.promessa-box{
+  background:linear-gradient(135deg,rgba(59,126,255,0.08),rgba(0,212,255,0.05));
+  border:1px solid rgba(59,126,255,0.2);
+  border-radius:20px;padding:48px 40px;
+  text-align:center;margin-top:40px;
+}
+.promessa-box p{
+  font-size:clamp(18px,3vw,28px);font-weight:700;
+  color:var(--white);line-height:1.4;margin-bottom:32px;
+}
+.promessa-box em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:8px;margin-top:40px;}
+.faq-item{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:22px 24px;
+  transition:border-color .2s;
+}
+.faq-item:hover{border-color:rgba(59,126,255,0.25);}
+.faq-q{font-size:15px;font-weight:700;color:var(--white);margin-bottom:8px;}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.7;}
+
+/* ── CTA FINAL ── */
+.cta-final{
+  text-align:center;padding:100px 24px;
+  position:relative;z-index:1;
+}
+.cta-final::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(59,126,255,0.07),transparent);
+  pointer-events:none;
+}
+.cta-final h2{
+  font-size:clamp(30px,5vw,58px);font-weight:800;
+  color:var(--white);line-height:1.05;letter-spacing:-1.5px;
+  margin-bottom:16px;
+}
+.cta-final h2 em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.cta-final p{font-size:17px;color:var(--muted);margin-bottom:40px;line-height:1.6;}
+.garantias{
+  display:flex;justify-content:center;gap:28px;flex-wrap:wrap;
+  margin-top:24px;
+}
+.g{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.g::before{content:'✓';color:var(--green);font-weight:800;}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  background:rgba(0,0,0,0.4);border-top:1px solid var(--border);
+  padding:28px 24px;text-align:center;
+}
+footer p{font-size:12px;color:var(--muted);margin-bottom:6px;}
+footer a{color:var(--muted);text-decoration:none;margin:0 10px;font-size:12px;}
+footer a:hover{color:var(--blue);}
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px);}to{opacity:1;transform:translateY(0);}}
+.hero-top>*{animation:fadeUp .6s ease both;}
+.badge{animation-delay:.08s;}.hero h1{animation-delay:.2s;}
+.hero-sub{animation-delay:.32s;}.aviso{animation-delay:.42s;}
+.hero-cta-wrap{animation-delay:.54s;}
+
+@media(max-width:600px){
+  .dia-row{grid-template-columns:40px 1fr;}
+  .dia-badge{display:none;}
+  .promessa-box{padding:32px 20px;}
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<nav>
+  <img src="logobranca.png" alt="Caixa Rápido + IA" style="height:45px;">
+  <a href="https://pay.kirvano.com/279bbb52-3a0c-4884-8b2d-14f2bd49aacd" class="nav-btn">Sim, quero por R$147</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="badge">Oferta especial — só aparece uma vez</div>
+    <h1>E se você nunca mais<br>precisasse pensar no que<br><em>postar amanhã?</em></h1>
+    <p class="hero-sub">Um agente de IA que gera roteiros, legendas e hooks ilimitados para o seu nicho — você configura uma vez e ele trabalha para você para sempre.</p>
+
+    <div class="aviso">
+      <p>Você acabou de garantir o <strong>Caixa Rápido + IA</strong>. O funil está montado. O bot está rodando. O que separa quem vende todo dia de quem vende uma vez é uma coisa: <strong>conteúdo consistente.</strong> Este agente resolve isso de uma vez por todas.</p>
+    </div>
+
+    <div class="hero-cta-wrap">
+      <a href="https://pay.kirvano.com/279bbb52-3a0c-4884-8b2d-14f2bd49aacd" class="btn-sim" target="_blank" rel="noopener">✓ &nbsp;Sim, quero o Agente de Conteúdo</a>
+      <a href="https://caixarapidoia.github.io/proposta/" class="btn-nao">Não, prefiro criar do zero →</a>
+      <p class="hero-preco">Por apenas <strong>R$147</strong> · Acesso imediato</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── O QUE ESTÁ INCLUSO ── -->
+<section>
+  <div class="inner">
+    <span class="tag">O que você recebe</span>
+    <h2 class="sec-h">Um agente que trabalha<br><em>para qualquer nicho seu</em></h2>
+    <p class="sec-p">Não importa se você vende curso, serviço, produto físico ou digital. Você configura o nicho, o produto e o tom uma vez — e o agente gera conteúdo personalizado para você ilimitadamente.</p>
+
+    <div class="includes-grid">
+      <div class="inc-card">
+        <span class="inc-num">01 / INCLUSO</span>
+        <div class="inc-title">Roteiros Ilimitados</div>
+        <div class="inc-desc">Digite o tema e o agente entrega o roteiro completo em segundos — gancho, desenvolvimento e CTA. Para qualquer nicho, em qualquer tom. Sem limite de gerações.</div>
+        <span class="inc-tag">✓ ILIMITADO</span>
+      </div>
+      <div class="inc-card">
+        <span class="inc-num">02 / INCLUSO</span>
+        <div class="inc-title">Legendas com CTA</div>
+        <div class="inc-desc">Cada roteiro vem acompanhado de uma legenda pronta com CTA personalizado para o seu produto. Copie e cole direto, sem escrever nada.</div>
+        <span class="inc-tag">✓ PRONTO PARA USAR</span>
+      </div>
+      <div class="inc-card">
+        <span class="inc-num">03 / INCLUSO</span>
+        <div class="inc-title">2 Variações de Hook</div>
+        <div class="inc-desc">Cada geração traz 2 aberturas alternativas para testar qual retém mais. Um tema vira 3 vídeos diferentes — sem criar do zero.</div>
+        <span class="inc-tag">✓ MULTIPLICA O ALCANCE</span>
+      </div>
+      <div class="inc-card">
+        <span class="inc-num">04 / INCLUSO</span>
+        <div class="inc-title">Múltiplos Perfis</div>
+        <div class="inc-desc">Crie um perfil para cada nicho ou produto que você trabalha. Alterne com um clique. O agente adapta o tom, o CTA e o estilo automaticamente.</div>
+        <span class="inc-tag">✓ QUALQUER NICHO</span>
+      </div>
+      <div class="inc-card">
+        <span class="inc-num">05 / INCLUSO</span>
+        <div class="inc-title">Calendário Editorial</div>
+        <div class="inc-desc">Gere 7, 14 ou 30 dias de pauta de uma vez. Tema, gancho e desenvolvimento de cada dia — planejamento completo em menos de 1 minuto.</div>
+        <span class="inc-tag">✓ ZERO DECISÃO DIÁRIA</span>
+      </div>
+      <div class="inc-card">
+        <span class="inc-num">06 / INCLUSO</span>
+        <div class="inc-title">Copy para DM e Bot</div>
+        <div class="inc-desc">Sequência de 3 mensagens para DM, Telegram ou WhatsApp. Do primeiro contato ao fechamento — tudo gerado pelo agente para o seu produto.</div>
+        <span class="inc-tag">✓ AUTOMATIZA A VENDA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMO FUNCIONA ── -->
+<section style="background:var(--bg2);">
+  <div class="inner">
+    <span class="tag">Como funciona na prática</span>
+    <h2 class="sec-h">Configure uma vez.<br><em>Gere para sempre.</em></h2>
+    <p class="sec-p">Em menos de 2 minutos você configura o agente com o seu nicho. Depois é só digitar o tema e receber o conteúdo pronto.</p>
+
+    <div class="dias-grid">
+      <div class="dia-row">
+        <div class="dia-n" style="font-size:18px;">01</div>
+        <div class="dia-info"><h4>Configure seu perfil</h4><p>Informe seu nicho, produto, tom de voz e palavra-chave do CTA — uma única vez</p></div>
+        <span class="dia-badge">1 min</span>
+      </div>
+      <div class="dia-row">
+        <div class="dia-n" style="font-size:18px;">02</div>
+        <div class="dia-info"><h4>Digite o tema do dia</h4><p>Pode ser qualquer assunto do seu nicho — o agente entende o contexto e adapta</p></div>
+        <span class="dia-badge">10 seg</span>
+      </div>
+      <div class="dia-row">
+        <div class="dia-n" style="font-size:18px;">03</div>
+        <div class="dia-info"><h4>Receba roteiro + legenda + hooks</h4><p>Tudo gerado em segundos, personalizado para o seu nicho e produto</p></div>
+        <span class="dia-badge">5 seg</span>
+      </div>
+      <div class="dia-row">
+        <div class="dia-n" style="font-size:18px;">04</div>
+        <div class="dia-info"><h4>Copie, grave e publique</h4><p>Um clique para copiar cada bloco — roteiro, legenda e hooks separados</p></div>
+        <span class="dia-badge">Pronto</span>
+      </div>
+      <div class="dia-row">
+        <div class="dia-n" style="font-size:18px;">05</div>
+        <div class="dia-info"><h4>Repita ilimitadamente</h4><p>Sem limite de gerações. Quanto mais você usar, mais conteúdo você tem</p></div>
+        <span class="dia-badge">∞</span>
+      </div>
+      <div class="dia-row" style="border-color:rgba(59,126,255,0.2);">
+        <div class="dia-n" style="font-size:14px;color:var(--blue);">+</div>
+        <div class="dia-info"><h4 style="color:var(--cyan);">Crie múltiplos perfis para nichos diferentes</h4><p>Alterne entre perfis com um clique — o agente adapta tudo automaticamente</p></div>
+        <span class="dia-badge">Ilimitado</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROMESSA ── -->
+<section class="promessa-sec">
+  <div class="inner">
+    <span class="tag">A lógica do produto</span>
+    <h2 class="sec-h">Conteúdo parou de ser<br><em>um problema para sempre.</em></h2>
+    <p class="sec-p">Não importa o nicho, o produto ou o dia da semana. O agente está disponível 24h, gera quantos roteiros você precisar e se adapta ao seu estilo. A única coisa que você faz é gravar.</p>
+    <div class="promessa-box">
+      <p>"Um agente que gera conteúdo ilimitado para qualquer nicho elimina a única desculpa que restava para não postar todos os dias: <em>não saber o que falar.</em>"</p>
+      <a href="https://pay.kirvano.com/279bbb52-3a0c-4884-8b2d-14f2bd49aacd" class="btn-sim" target="_blank" rel="noopener">Quero o Agente de Conteúdo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section>
+  <div class="inner">
+    <span class="tag">Dúvidas</span>
+    <h2 class="sec-h">Respondendo o que<br><em>você está pensando</em></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Funciona para qualquer nicho mesmo?</div>
+        <div class="faq-a">Sim. Você configura o seu nicho, produto, tom de voz e CTA uma vez. A partir daí o agente gera todo conteúdo personalizado para o seu mercado — não para o nicho de renda extra com IA, mas para o nicho que você escolher.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">É diferente dos prompts que vieram no Bump 2?</div>
+        <div class="faq-a">Completamente diferente. O Bump 2 te deu prompts para você montar roteiros manualmente. Este agente é uma ferramenta interativa — você digita o tema, clica em gerar e recebe o roteiro, a legenda e os hooks prontos em segundos. Sem trabalho manual.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Precisa saber usar IA ou programar?</div>
+        <div class="faq-a">Não. É uma interface simples: configura o perfil, digita o tema, clica em gerar. Funciona no celular, tablet ou computador. Se você sabe usar WhatsApp, você sabe usar o agente.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Como recebo o acesso?</div>
+        <div class="faq-a">Acesso imediato na Área de Membros logo após a confirmação do pagamento. O agente fica disponível online — sem download, sem instalação.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA FINAL ── -->
+<section class="cta-final" id="checkout">
+  <h2>Nunca mais fique sem<br>saber o que postar.<br><em>A partir de hoje.</em></h2>
+  <p>Configure seu nicho uma vez. Gere roteiros, legendas e hooks ilimitados para sempre. Para qualquer nicho, em qualquer dia.</p>
+  <a href="https://pay.kirvano.com/279bbb52-3a0c-4884-8b2d-14f2bd49aacd" class="btn-sim" style="font-size:18px;padding:22px 56px;" target="_blank" rel="noopener">
+    ✓ &nbsp;Sim, quero o Agente de Conteúdo — R$147
+  </a>
+  <div class="garantias">
+    <span class="g">Acesso imediato</span>
+    <span class="g">Pagamento seguro</span>
+    <span class="g">7 dias de garantia</span>
+    <span class="g">Gerações ilimitadas</span>
+  </div>
+  <p style="margin-top:20px;">
+    <a href="https://caixarapidoia.github.io/proposta/" style="font-size:13px;color:var(--muted);text-decoration:none;">
+      Não, prefiro criar do zero →
+    </a>
+  </p>
+</section>
+
+<footer>
+  <p>© 2026 Caixa Rápido + IA. Todos os direitos reservados.</p>
+  <div>
+    <a href="privacidade.html">Privacidade</a>
+    <a href="termos.html">Termos</a>
+  </div>
+  <p style="margin-top:10px;">Produto digital. Resultados podem variar conforme dedicação e aplicação.</p>
+</footer>
+
+</body>
+</html>
